@@ -1,8 +1,10 @@
 <p>Welcome to celebrities/show.html</p>
 <a href="/celebrities">Back</a>
 
-{{#each celebrityFromDb}}
-<h2>{{name}}</h2>
-<p>{{occupation}}</p>
-<p>{{catchPhrase}}</p>
-{{/each}}
+
+<h2>{{celebrity.name}}</h2>
+<p>{{celebrity.occupation}}</p>
+<p>{{celebrity.catchPhrase}}</p>
+
+<a href="/celebrities/{{celebrity._id}}/edit">Edit</a>
+<a href="/celebrities/{{celebrity._id}}/delete">Delete</a>
