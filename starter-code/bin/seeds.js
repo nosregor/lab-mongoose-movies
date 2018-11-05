@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 // 1. import movie model
-const Celebrity = require('../models/celebrity');
+const Celebrity = require('../models/Celebrity');
 
 // 2. Connect to mongoDB
 const dbName = 'movieDB2';
