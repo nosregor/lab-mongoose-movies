@@ -1,7 +1,9 @@
 <h2>Celebrities</h2>
 
 {{#each celebritiesFromDb}}
-<ul>
-  <li>{{name}}</li>
-</ul>
+<a href="/celebrities/{{_id}}">
+  <ul>
+    <li>{{name}}</li>
+  </ul>
+</a>
 {{/each}}
