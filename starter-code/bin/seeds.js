@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 // 1. import movie model
 const Celebrity = require('../models/Celebrity');
+const Movie = require('../models/Movie');
 
 // 2. Connect to mongoDB
 const dbName = 'movieDB2';
@@ -25,6 +26,41 @@ const celebrities = [
   },
 ];
 
+
+const movies = [
+  {
+    title: 'A Wrinkle in Time',
+    genre: 'Advernture',
+    plot: 'Something...',
+  },
+  {
+    title: 'The Strangers: Prey at Night',
+    genre: 'Comedie',
+    plot: 'Something...',
+  },
+  {
+    title: 'The Hurricane Heist',
+    genre: 'Drama',
+    plot: 'Something...',
+  },
+  {
+    title: 'Gringo',
+    genre: 'Horror',
+    plot: 'Something...',
+  },
+  {
+    title: 'Black Panther',
+    genre: 'Adventure',
+    plot: 'Something...',
+  },
+  {
+    title: 'Red Sparrow',
+    genre: 'Mystery',
+    plot: 'Something...',
+  },
+];
+
+
 // Celebrity.create(celebrities, (err) => {
 //   if (err) { throw (err); }
 //   console.log(`Created ${celebrities.length} movies`);
@@ -33,6 +69,15 @@ const celebrities = [
 
 // 4. Store celebrities in mongoDB
 Celebrity.create(celebrities)
+  .then((result) => {
+    console.log(`Created ${result.length} movies`);
+  })
+  .catch((err) => {
+    console.log('An error happened:', err);
+    mongoose.connection.close();
+  });
+
+Movie.create(movies)
   .then((result) => {
     console.log(`Created ${result.length} movies`);
     mongoose.connection.close();
