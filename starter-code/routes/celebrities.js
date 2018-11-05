@@ -15,6 +15,29 @@ router.get('/', (req, res, next) => {
     });
 });
 
+/* route displays the POST form */
+router.get('/new', (req, res, next) => {
+  res.render('celebrities/new');
+});
+
+
+router.post('/new', (req, res, next) => {
+  const { name, occupation, catchPhrase } = req.body;
+
+  Celebrities.create({
+    name,
+    occupation,
+    catchPhrase,
+  })
+    .then((celebrity) => {
+      res.redirect(`/celebrities/${celebrity._id}`);
+    })
+    .catch((error) => {
+      res.send(error);
+    });
+});
+
+
 /* GET celebrity page */
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
@@ -27,5 +50,6 @@ router.get('/:id', (req, res, next) => {
       console.log(error);
     });
 });
+
 
 module.exports = router;
