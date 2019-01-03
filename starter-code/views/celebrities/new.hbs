@@ -15,5 +15,12 @@
   <label for="catchPhrase">CatchPhrase</label>
   <input id="catchPhrase" type="text" name="catchPhrase">
   <br>
+  <select name="_movies">
+    {{#each movies}}
+    {{!-- req.body will be the id of the publisher --}}
+    <option value="{{this._id}}">{{this.title}}</option>
+    {{/each}}
+  </select>
+  <br>
   <button type="submit">Add celebrity</button>
 </form>

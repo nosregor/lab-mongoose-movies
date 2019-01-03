@@ -1,6 +1,9 @@
 const express = require('express');
 // add model
 const Movie = require('../models/Movie');
+const Celebrity = require('../models/Celebrity');
+const MovCeleb = require('../models/MovCeleb');
+const ObjectId = require('mongodb').ObjectID;
 
 const router = express.Router();
 

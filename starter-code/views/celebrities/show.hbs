@@ -3,8 +3,13 @@
 
 
 <h2>{{celebrity.name}}</h2>
-<p>{{celebrity.occupation}}</p>
-<p>{{celebrity.catchPhrase}}</p>
+Occupation:<p>{{celebrity.occupation}}</p>
+CatchPhrase:<p>{{celebrity.catchPhrase}}</p>
+
+{{#each celebrity._movies}}
+Movies:<p>{{this.title}}</p>
+{{/each}}
+{{!-- <p>{{celebrity._movies}}</p> --}}
 
 <a href="/celebrities/{{celebrity._id}}/edit">Edit</a>
 <a href="/celebrities/{{celebrity._id}}/delete">Delete</a>

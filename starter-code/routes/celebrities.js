@@ -1,6 +1,9 @@
 const express = require('express');
 // add model
 const Celebrity = require('../models/Celebrity');
+const Movie = require('../models/Movie');
+const MovCeleb = require('../models/MovCeleb.js');
+const ObjectId = require('mongodb').ObjectID;
 
 const router = express.Router();
 
@@ -18,8 +21,12 @@ router.get('/', (req, res, next) => {
 
 /* render form */
 router.get('/new', (req, res, next) => {
-  res.render('celebrities/new');
+  Movie.find({}, null, { sort: { name: 1 } })
+    .then((movies) => {
+      res.render('celebrities/new', { movies });
+    });
 });
+
 
 // Create a celebrity with the information from the form
 router.post('/new', (req, res, next) => {
@@ -38,7 +45,9 @@ router.post('/new', (req, res, next) => {
   //   catchPhrase,
   // })
 
-  const newCelebrity = new Celebrity({ name, occupation, catchPhrase });
+  const newCelebrity = new Celebrity({
+    name, occupation, catchPhrase, _movies,
+  });
   newCelebrity.save()
     .then((celebrity) => {
       res.redirect(`/celebrities/${celebrity._id}`);
@@ -53,6 +62,7 @@ router.post('/new', (req, res, next) => {
 // celebrities/:id
 router.get('/:id', (req, res, next) => {
   Celebrity.findById(req.params.id)
+    .populate('_movies') // change the field "_movie" by the full document
     .then((celebrity) => {
       res.render('celebrities/show', { celebrity });
     })
@@ -61,12 +71,17 @@ router.get('/:id', (req, res, next) => {
     });
 });
 
+
 // render the edit form
 router.get('/:id/edit', (req, res, next) => {
   Celebrity.findById(req.params.id)
     .then((celebrity) => {
+      Movie.find({}, null, { sort: { name: 1 } })
+        .then((movies) => {
+          res.render('celebrities/edit', { celebrity, movies });
+        });
+
       console.log('From the edit get route:', celebrity);
-      res.render('celebrities/edit', { celebrity });
     })
     .catch((error) => {
       next(error);
@@ -75,13 +90,16 @@ router.get('/:id/edit', (req, res, next) => {
 
 // Update the celebrity with info from the form
 router.post('/:id/edit', (req, res, next) => {
-  const { name, occupation, catchPhrase } = req.body;
+  const {
+    name, occupation, catchPhrase, _movies,
+  } = req.body;
 
   // Find the book and update it with the info from the form
   Celebrity.findByIdAndUpdate(req.params.id, {
     name,
     occupation,
     catchPhrase,
+    _movies,
   })
     .then((celebrity) => {
       console.log(`Updated celebrity: ${req.params.id}`);
